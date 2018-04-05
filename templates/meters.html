@@ -1,0 +1,11 @@
+{% extends  'layout.html' %}
+
+{% block body %}
+  <h1>Live Building Systems Meters</h1>
+  <ul class="list-group">
+
+    {% for meter in meters %}
+      <li class="list-group-item"><a href="meters/{{meter.id}}">{{meter.label}}</a></li>
+    {% endfor %}
+
+{% endblock %}
