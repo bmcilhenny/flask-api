@@ -3,6 +3,7 @@ import sqlite3
 from flask import Flask, render_template, g, jsonify
 # For debugging purposes use ->
 import pdb
+import logging
 
 app = Flask(__name__)
 
@@ -14,6 +15,7 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
         # db.row_factory = sqlite3.Row
         def make_dicts(cursor, row):
+            # logging.warning(enumerate(row))
             return dict((cursor.description[idx][0], value) for idx, value in enumerate(row))
         db.row_factory = make_dicts
     return db
@@ -39,7 +41,9 @@ def meters():
     #Get meters
     # result = cur.execute("SELECT * FROM meters")
     # meters = cur.fetchall()
+    # pdb.set_trace()
     meters = query_db("SELECT * FROM meters")
+
 
     if len(meters) > 0:
         return render_template('meters.html', meters=meters)
