@@ -24,21 +24,22 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-# def query_db(query, args=(), one=False):
-#     cur = get_db().execute(query, args)
-#     rv = cur.fetchall()
-#     cur.close()
-#     return (rv[0] if rv else None) if one else rv
+def query_db(query, args=(), one=False):
+    cur = get_db().execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
 
 @app.route('/meters')
 def meters():
+
     # Create cursor
-    cur = get_db().cursor()
+    # cur = get_db().cursor()
 
     #Get meters
-    result = cur.execute("SELECT * FROM meters")
-    meters = cur.fetchall()
-    # pdb.set_trace()
+    # result = cur.execute("SELECT * FROM meters")
+    # meters = cur.fetchall()
+    meters = query_db("SELECT * FROM meters")
 
     if len(meters) > 0:
         return render_template('meters.html', meters=meters)
@@ -46,26 +47,24 @@ def meters():
         msg = 'No Meters Found'
         return render_template('meters.html', msg=msg)
 
-    cur.close()
+    # cur.close()
 
     return render_template('articles.html')
 
 @app.route('/meters/<string:id>')
 def meter(id):
     # Create cursor
-    cur = get_db().cursor()
+    # cur = get_db().cursor()
 
     #Get meters
-    result = cur.execute("SELECT * FROM meter_data WHERE meter_id= ? ORDER BY timestamp", id)
-    meter_data = cur.fetchall()
+    # result = cur.execute("SELECT * FROM meter_data WHERE meter_id= ? ORDER BY timestamp", id)
+    # meter_data = cur.fetchall()
     # pdb.set_trace()
+    meter_data = query_db("SELECT * FROM meter_data WHERE meter_id= ? ORDER BY timestamp", id)
 
-    cur.close()
+    # cur.close()
 
     return jsonify(meter_data)
-
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)
