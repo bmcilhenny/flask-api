@@ -1,11 +1,17 @@
 
 import sqlite3
 from flask import Flask, render_template, g, jsonify
+# from flask_sqlalchemy import SQLAlchemy
+
+
+
 # For debugging purposes use ->
 import pdb
 import logging
 
 app = Flask(__name__)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///FIXMEEEEEEEEEEEE'
+#db = SQLAlchemy(app)
 
 DATABASE = './database.db'
 
@@ -69,6 +75,18 @@ def meter(id):
     # cur.close()
 
     return jsonify(meter_data)
+
+# @app.route('/addmeter', methods=['POST'])
+# def addpost():
+#     # label =
+#     # meter_da
+#
+#     meter = Meter(label=label)
+#
+#     db.session.add(meter)
+#     db.session.commit()
+#
+#     return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)
